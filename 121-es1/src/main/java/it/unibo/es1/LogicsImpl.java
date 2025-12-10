@@ -1,5 +1,7 @@
 package it.unibo.es1;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.List;
 
 /**
@@ -7,7 +9,7 @@ import java.util.List;
  */
 public class LogicsImpl implements Logics {
 
-    private static final String ERROR_MESSAGE = "Unimplemented method";
+    private final List<Integer> values;
 
     /**
      * Constructor.
@@ -15,7 +17,13 @@ public class LogicsImpl implements Logics {
      * @param size the size of the logics
      */
     public LogicsImpl(final int size) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        this.values = IntStream.range(0, size)
+        .mapToObj(i -> 0)
+        .collect(Collectors.toList());
+    }
+
+    private boolean isEnabled(final int index) {
+        return values.get(index) < values.size();
     }
 
     /**
@@ -23,7 +31,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int size() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return values.size();
     }
 
     /**
@@ -31,7 +39,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Integer> values() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return List.copyOf(values);
     }
 
     /**
@@ -39,7 +47,9 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Boolean> enabledStates() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return IntStream.range(0, values.size())
+        .mapToObj(this::isEnabled)
+        .toList();
     }
 
     /**
@@ -47,7 +57,9 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int hit(final int elem) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        final int updated = values.get(elem) + 1;
+        values.set(elem, updated);
+        return updated;
     }
 
     /**
@@ -55,7 +67,9 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public String result() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return values.stream()
+            .map(String::valueOf)
+            .collect(Collectors.joining("|", "<<", ">>"));
     }
 
     /**
@@ -63,6 +77,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public boolean toQuit() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return values.stream().distinct().count() == 1;
     }
+
 }
