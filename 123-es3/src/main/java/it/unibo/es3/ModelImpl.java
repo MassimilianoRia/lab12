@@ -31,11 +31,14 @@ public class ModelImpl implements Model {
             }
         }
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> init() {
-        Random random = new Random();
-        Set<Pair<Integer, Integer>> used = new HashSet<>();
+        final Random random = new Random();
+        final Set<Pair<Integer, Integer>> used = new HashSet<>();
         while (used.size() < 3) {
             final Pair<Integer, Integer> pair = new Pair<>(random.nextInt(width), random.nextInt(width));
             if (used.add(pair)) {
@@ -45,6 +48,9 @@ public class ModelImpl implements Model {
         return getCellsAsList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> computeNextStep() {
         final String[][] copy = new String[width][width];
@@ -55,31 +61,32 @@ public class ModelImpl implements Model {
         }
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
-                if (copy[i][j].equals(EMPTY)) {
-                    if (
-                        // Check adjacent and diagonal cells for a STAR
-                        (i > 0 && copy[i - 1][j].equals(STAR)) ||
-                        (i < width - 1 && copy[i + 1][j].equals(STAR)) ||
-                        (j > 0 && copy[i][j - 1].equals(STAR)) ||
-                        (j < width - 1 && copy[i][j + 1].equals(STAR)) ||
-                        (i > 0 && j > 0 && copy[i - 1][j - 1].equals(STAR)) ||
-                        (i > 0 && j < width - 1 && copy[i - 1][j + 1].equals(STAR)) ||
-                        (i < width - 1 && j > 0 && copy[i + 1][j - 1].equals(STAR)) ||
-                        (i < width - 1 && j < width - 1 && copy[i + 1][j + 1].equals(STAR))
-                    ) {
-                        this.cells[i][j] = STAR;
-                    }
+                // Check adjacent and diagonal cells for a STAR
+                if (EMPTY.equals(copy[i][j]) && (
+                        i > 0 && STAR.equals(copy[i - 1][j])
+                    || i < width - 1 && STAR.equals(copy[i + 1][j])
+                    || j > 0 && STAR.equals(copy[i][j - 1])
+                    || j < width - 1 && STAR.equals(copy[i][j + 1])
+                    || i > 0 && j > 0 && STAR.equals(copy[i - 1][j - 1])
+                    || i > 0 && j < width - 1 && STAR.equals(copy[i - 1][j + 1])
+                    || i < width - 1 && j > 0 && STAR.equals(copy[i + 1][j - 1])
+                    || i < width - 1 && j < width - 1 && STAR.equals(copy[i + 1][j + 1])
+                )) {
+                    this.cells[i][j] = STAR;
                 }
             }
         }
         return getCellsAsList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isFull() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
-                if (this.cells[i][j].equals(EMPTY)) {
+                if (EMPTY.equals(this.cells[i][j])) {
                     return false;
                 }
             }

@@ -12,20 +12,20 @@ public interface Model {
      *
      * @return the initial grid state as a linear list in row-major order
      */
-    public List<String> init();
+    List<String> init();
 
     /**
      * Updates the model state by applying one evolution step.
      *
      * @return the updated grid state as a linear list in row-major order
      */
-    public List<String> computeNextStep();
+    List<String> computeNextStep();
 
     /**
      * Checks whether the grid is completely filled.
      *
      * @return true if all cells are occupied, false otherwise
      */
-    public boolean isFull();
+    boolean isFull();
 
 }

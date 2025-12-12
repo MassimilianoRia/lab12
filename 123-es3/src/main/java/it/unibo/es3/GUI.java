@@ -17,7 +17,7 @@ public final class GUI extends JFrame {
 
     @Serial
     private static final long serialVersionUID = 1L;
-    private final Model model;
+    private final transient Model model;
     private final List<JButton> buttons = new ArrayList<>();
 
     /**
