@@ -28,6 +28,6 @@ public final class Test {
      * @param args command line arguments (ignored)
      */
     public static void main(final String... args) {
-        new GUI(10); // only use odd numbers as arguments!
+        new GUI(10); // only use even numbers as arguments!
     }
 }
